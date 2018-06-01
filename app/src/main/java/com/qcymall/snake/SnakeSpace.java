@@ -100,7 +100,7 @@ public class SnakeSpace extends View {
             return;
         }
         direction = dir;
-        move();
+
     }
 
     private void showFood(){
