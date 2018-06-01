@@ -27,29 +27,31 @@
         android:layout_height="wrap_content"
         android:text="上"
         android:onClick="upMove"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/down_btn"/>
     <Button
         android:id="@+id/down_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="下"
         android:onClick="downMove"
-        app:layout_constraintRight_toLeftOf="@id/left_btn"
-        app:layout_constraintLeft_toRightOf="@id/up_btn"/>
+        app:layout_constraintLeft_toLeftOf="@id/up_btn"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <Button
         android:id="@+id/left_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="左"
         android:onClick="leftMove"
-        app:layout_constraintRight_toLeftOf="@id/right_btn"
-        app:layout_constraintLeft_toRightOf="@id/down_btn"/>
+        app:layout_constraintTop_toTopOf="@id/down_btn"
+        app:layout_constraintRight_toLeftOf="@id/down_btn"/>
     <Button
         android:id="@+id/right_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="右"
         android:onClick="rightMove"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/left_btn"/>
+        app:layout_constraintTop_toTopOf="@id/down_btn"
+        app:layout_constraintLeft_toRightOf="@id/down_btn"/>
 </android.support.constraint.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.LinkedList;
@@ -20,6 +21,8 @@ public class SnakeSpace extends View {
     public static final int DIRECTION_LEFT = 3;
     public static final int DIRECTION_RIGHT = 4;
     private int direction;
+    private int nextDir;
+    private int snakeFood;
     private LinkedList<Integer> snakeArray;
     public SnakeSpace(Context context) {
         super(context);
@@ -47,6 +50,7 @@ public class SnakeSpace extends View {
         snakeArray.add(8*100+16);
         snakeArray.add(8*100+17);
         snakeArray.add(8*100+18);
+        showFood();
     }
 
     public void move(){
@@ -55,26 +59,40 @@ public class SnakeSpace extends View {
             case DIRECTION_LEFT:
                 if (firstIndex >= 100){
                     firstIndex -= 100;
+                }else{
+                    return;
                 }
                 break;
             case DIRECTION_UP:
                 if (firstIndex%100 > 0){
                     firstIndex -= 1;
+                }else{
+                    return;
                 }
                 break;
             case DIRECTION_RIGHT:
                 if (firstIndex < 1500){
                     firstIndex += 100;
+                }else{
+                    return;
                 }
                 break;
             case DIRECTION_DOWN:
                 if (firstIndex%100 < 31){
                     firstIndex += 1;
+                }else{
+                    return;
                 }
                 break;
         }
         snakeArray.addFirst(firstIndex);
-        snakeArray.removeLast();
+        if (firstIndex == snakeFood){
+            showFood();
+        }else{
+            snakeArray.removeLast();
+        }
+
+
         postInvalidate();
     }
     public void move(int dir){
@@ -82,6 +100,19 @@ public class SnakeSpace extends View {
             return;
         }
         direction = dir;
+        move();
+    }
+
+    private void showFood(){
+        int x = (int) Math.round(Math.random() * 16);
+        int y = (int) Math.round(Math.random() * 32);
+
+        while (snakeArray.contains(x*100 + y)){
+            x = (int) Math.round(Math.random() * 16);
+            y = (int) Math.round(Math.random() * 32);
+        }
+        Log.e("SnakeSpace", "food pos = " + snakeFood);
+        snakeFood = x*100 + y;
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -106,13 +137,14 @@ public class SnakeSpace extends View {
 
         for (int i = 0; i < 16; i++){
             for (int j = 0; j < 32; j++) {
-                if (snakeArray.contains(i*100+j)){
+                if (snakeArray.contains(i*100+j) || snakeFood == (i*100+j)){
                     canvas.drawRect((dx * i) + 1, (dx * j) + 1, (dx * i) + dx - 1, (dx * j) + dx - 1, paint);
                 }else{
                     canvas.drawRect((dx * i) + 1, (dx * j) + 1, (dx * i) + dx - 1, (dx * j) + dx - 1, paint2);
                 }
             }
         }
+
         super.onDraw(canvas);
     }
 

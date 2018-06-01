@@ -58,9 +58,8 @@ class MainActivity : AppCompatActivity() {
             override fun run() {
                 snake.move()
             }
-
         }
-        mTimer!!.schedule(mTimerTask, 1000, 100)
+        mTimer!!.schedule(mTimerTask, 1000, 500)
     }
 
     private fun stopTimer(){
